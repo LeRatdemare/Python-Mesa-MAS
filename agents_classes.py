@@ -7,8 +7,12 @@ class Sugar(mesa.Agent):
   - Grows one amount of sugar at each turn
   """
 
-  def __init__(self):
-    print("I am a sugar")
+  def __init__(self, unique_id, model, pos, max_sugar):
+    super().__init__(unique_id, model)
+    self.pos = pos
+    self.amount = max_sugar
+    self.max_sugar = max_sugar
+
 
 class Spice(mesa.Agent):
   """
