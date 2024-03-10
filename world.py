@@ -1,6 +1,7 @@
 import mesa
 import mesa.space as mspace
 import mesa.time as mtime
+from mesa.model import random as mrandom
 from agents_classes import *
 import numpy as np
 import matplotlib.pyplot as plt
@@ -10,10 +11,20 @@ class SugarscapeG1mt(mesa.Model):
   A model class ot  mange Sugarscape with Traders (G1mt)
   form Groing Artificial Societies
   '''
-  def __init__(self, width=50, height=50):
+  def __init__(self, width=50, height=50, initial_population=200, endowment_min=25, endowment_max=50,
+               metabolism_min=1, metabolism_max=5, vision_min=1, vision_max=5):
     # Initiate width and height of sugarscape
     self.width = width
     self.height = height
+    # Initiate population attributes
+    self.initial_population = initial_population
+    self.endowment_min = endowment_min
+    self.endowment_max = endowment_max
+    self.metabolism_min = metabolism_min
+    self.metabolism_max = metabolism_max
+    self.vision_min = vision_min
+    self.vision_max = vision_max
+
     # Initiate mesa grid class
     # See https://github.com/projectmesa/mesa/blame/main/mesa/space.py for world classes
     self.grid = mspace.MultiGrid(width=self.width, height=self.height, torus=False)
@@ -44,4 +55,32 @@ class SugarscapeG1mt(mesa.Model):
         self.grid.place_agent(spice, (x,y))
         self.schedule.add(spice)
         agent_id += 1
-    print(self.schedule.agents)
+    for i in range(self.initial_population):
+      # Get agent position
+      x = mrandom.randrange(self.width)
+      y = mrandom.randrange(self.height)
+      # See growing Artificial Societies p. 108 for parameter initialization
+      # Give agent initial endowment
+      sugar = int(mrandom.uniform(self.endowment_min, self.endowment_max+1))
+      spice = int(mrandom.uniform(self.endowment_min, self.endowment_max+1))
+      # Give agents initial metabolism
+      metabolism_sugar = int(mrandom.uniform(self.metabolism_min, self.metabolism_max+1))
+      metabolism_spice = int(mrandom.uniform(self.metabolism_min, self.metabolism_max+1))
+      # Give agents initial vision
+      vision = int(mrandom.uniform(self.vision_min, self.vision_max+1))
+      # Create Trader object
+      trader = Trader(agent_id,
+                      self,
+                      (x,y),
+                      moore = False,
+                      sugar = sugar,
+                      spice = spice,
+                      metabolism_sugar = metabolism_sugar,
+                      metabolism_spice = metabolism_spice,
+                      vision = vision)
+      # Place agent
+      self.grid.place_agent(trader, (x,y))
+      self.schedule.add(trader)
+      print(trader.unique_id, trader.pos, trader.sugar, trader.metabolism_spice)
+
+      agent_id += 1
