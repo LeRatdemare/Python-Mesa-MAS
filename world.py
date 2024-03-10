@@ -4,7 +4,7 @@ from agents_classes import *
 import numpy as np
 import matplotlib.pyplot as plt
 
-class SugarscapeG1mt(mesa.Agent):
+class SugarscapeG1mt(mesa.Model):
   '''
   A model class ot  mange Sugarscape with Traders (G1mt)
   form Groing Artificial Societies
@@ -26,6 +26,12 @@ class SugarscapeG1mt(mesa.Agent):
     # plt.colorbar(im)
     # plt.show()
 
-    self.spice = Spice()
-    self.sugar = Sugar()
-    self.trader = Trader()
+    agent_id = 0
+    for (_, x, y) in self.grid.coord_iter():
+      max_sugar = sugar_distribution[x, y]
+      if max_sugar > 0:
+        sugar = Sugar(agent_id, self, (x,y), max_sugar)
+        self.grid.place_agent(sugar, (x,y))
+        agent_id += 1
+    for (_, x, y) in self.grid.coord_iter():
+      print(_,x,y)
