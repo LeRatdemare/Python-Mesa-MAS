@@ -21,8 +21,11 @@ class Spice(mesa.Agent):
   - Grows one amount of spice at each turn
   """
 
-  def __init__(self):
-    print("I am a Spice")
+  def __init__(self, unique_id, model, pos, max_spice):
+    super().__init__(unique_id, model)
+    self.pos = pos
+    self.amount = max_spice
+    self.max_spice = max_spice
 
 class Trader(mesa.Agent):
   """
