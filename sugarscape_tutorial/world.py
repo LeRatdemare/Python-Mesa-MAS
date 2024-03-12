@@ -106,6 +106,3 @@ class SugarscapeG1mt(mesa.Model):
     for i in range(step_count):
       print(i)
       self.step()
-  
-  # def get_agents_by_type(self, agent_type):
-  #       return [agent for agent in self.schedule.agents if type(agent) == agent_type]

@@ -58,6 +58,21 @@ class Trader(mesa.Agent):
     self.metabolism_sugar = metabolism_sugar
     self.metabolism_spice = metabolism_spice
     self.vision = vision
+
+  def is_occupied_by_other(self, pos):
+    '''
+    Helper function part 1 of self.move()
+    '''
+    if pos == self.pos:
+      # Agent's position is considered unoccupied as agent can stay here
+      return False
+    this_cell = self.model.grid.get_cell_list_contents(pos)
+    for a in this_cell:
+      # See if occupied by another agent
+      if isinstance(a, Trader):
+        return True
+    return False
+
   def move(self):
     '''
     Function for trader agent to identify optimal move for each step in 4 parts
@@ -66,10 +81,11 @@ class Trader(mesa.Agent):
     3 - Find closest best option
     4 - Move
     '''
-    
+  
     # 1 - Identify all possible moves
-    # neighbors = [i
-    #              for i in self.model.grid.get_neighborhood(
-                   
-    # )]
-    pass
+    neighbors = [i
+                 for i in self.model.grid.get_neighborhood(
+                   self.pos, self.moore, True, self.vision
+                ) if not self.is_occupied_by_other(i)]
+    print(self.pos, neighbors)
+    # 2 - Determine chich mive maximize welfare
