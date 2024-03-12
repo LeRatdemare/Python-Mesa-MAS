@@ -58,3 +58,5 @@ class Trader(mesa.Agent):
     self.metabolism_sugar = metabolism_sugar
     self.metabolism_spice = metabolism_spice
     self.vision = vision
+  def move(self):
+    print("I am agent {} and am about to move".format(self.unique_id))

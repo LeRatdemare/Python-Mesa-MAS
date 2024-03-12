@@ -92,6 +92,13 @@ class SugarscapeG1mt(mesa.Model):
       sugar.step()
     for spice in self.get_agents_by_type(Spice):
       spice.step()
+    # Step trader agents
+    # To account for agent death and removal we need
+    # a separate data structure to iterate
+    trader_shuffle = self.get_agents_by_type(Trader)
+    mrandom.shuffle(trader_shuffle)
+    for trader in trader_shuffle:
+      trader.move()
 
     self.schedule.steps += 1 # Important for data collector to track number of steps
   
