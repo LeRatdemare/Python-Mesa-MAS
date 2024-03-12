@@ -29,7 +29,7 @@ class SugarscapeG1mt(mesa.Model):
     # See https://github.com/projectmesa/mesa/blame/main/mesa/space.py for world classes
     self.grid = mspace.MultiGrid(width=self.width, height=self.height, torus=False)
     # Initiate schedule
-    self.schedule = mtime.RandomActivation(self)
+    self.schedule = mtime.RandomActivationByType(self)
     # Find file here https://www.complexityexplorer.org/courses/172-agent-based-models-with-python-an-introduction-to-mesa/materials
     sugar_distribution = np.genfromtxt("sugarscape_tutorial/resources/sugar-map.txt")
     spice_distribution = np.flip(sugar_distribution, 1)
@@ -40,7 +40,7 @@ class SugarscapeG1mt(mesa.Model):
     # plt.show()
 
     agent_id = 0
-    for (_, x, y) in self.grid.coord_iter():
+    for _, (x, y) in self.grid.coord_iter():
       max_sugar = sugar_distribution[x, y]
       if max_sugar > 0:
         sugar = Sugar(agent_id, self, (x,y), max_sugar)
@@ -88,14 +88,14 @@ class SugarscapeG1mt(mesa.Model):
     Unique step function that does stage activation of sugar and spice
     and then randomly activates traders.
     '''
-    for sugar in self.get_agents_by_type(Sugar):
+    for sugar in self.schedule.agents_by_type[Sugar].values():
       sugar.step()
-    for spice in self.get_agents_by_type(Spice):
+    for spice in self.schedule.agents_by_type[Spice].values():
       spice.step()
     # Step trader agents
     # To account for agent death and removal we need
     # a separate data structure to iterate
-    trader_shuffle = self.get_agents_by_type(Trader)
+    trader_shuffle = list(self.schedule.agents_by_type[Trader].values())
     mrandom.shuffle(trader_shuffle)
     for trader in trader_shuffle:
       trader.move()
@@ -107,5 +107,5 @@ class SugarscapeG1mt(mesa.Model):
       print(i)
       self.step()
   
-  def get_agents_by_type(self, agent_type):
-        return [agent for agent in self.schedule.agents if type(agent) == agent_type]
+  # def get_agents_by_type(self, agent_type):
+  #       return [agent for agent in self.schedule.agents if type(agent) == agent_type]

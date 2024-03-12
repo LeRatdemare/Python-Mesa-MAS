@@ -59,4 +59,17 @@ class Trader(mesa.Agent):
     self.metabolism_spice = metabolism_spice
     self.vision = vision
   def move(self):
-    print("I am agent {} and am about to move".format(self.unique_id))
+    '''
+    Function for trader agent to identify optimal move for each step in 4 parts
+    1 - Identify all possible moves
+    2 - Determine which move maximize welfare
+    3 - Find closest best option
+    4 - Move
+    '''
+    
+    # 1 - Identify all possible moves
+    # neighbors = [i
+    #              for i in self.model.grid.get_neighborhood(
+                   
+    # )]
+    pass
