@@ -12,7 +12,12 @@ class Sugar(mesa.Agent):
     self.pos = pos
     self.amount = max_sugar
     self.max_sugar = max_sugar
-
+  def step(self):
+    '''
+    Sugar Growth funtion, adds one unit of sugar each step until
+    max amount 
+    '''
+    self.amount = min([self.max_sugar, self.amount+1])
 
 class Spice(mesa.Agent):
   """
@@ -26,6 +31,14 @@ class Spice(mesa.Agent):
     self.pos = pos
     self.amount = max_spice
     self.max_spice = max_spice
+  
+  def step(self):
+    '''
+    Spice growth function, adds one unit of
+    Spice each step until max amount
+    '''
+    self.amount = min([self.max_spice, self.amount+1])
+
 
 class Trader(mesa.Agent):
   """

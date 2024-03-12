@@ -30,9 +30,8 @@ class SugarscapeG1mt(mesa.Model):
     self.grid = mspace.MultiGrid(width=self.width, height=self.height, torus=False)
     # Initiate schedule
     self.schedule = mtime.RandomActivation(self)
-
     # Find file here https://www.complexityexplorer.org/courses/172-agent-based-models-with-python-an-introduction-to-mesa/materials
-    sugar_distribution = np.genfromtxt("resources/sugar-map.txt")
+    sugar_distribution = np.genfromtxt("sugarscape_tutorial/resources/sugar-map.txt")
     spice_distribution = np.flip(sugar_distribution, 1)
     
     # Printing distributions
@@ -81,6 +80,25 @@ class SugarscapeG1mt(mesa.Model):
       # Place agent
       self.grid.place_agent(trader, (x,y))
       self.schedule.add(trader)
-      print(trader.unique_id, trader.pos, trader.sugar, trader.metabolism_spice)
 
       agent_id += 1
+  
+  def step(self):
+    '''
+    Unique step function that does stage activation of sugar and spice
+    and then randomly activates traders.
+    '''
+    for sugar in self.get_agents_by_type(Sugar):
+      sugar.step()
+    for spice in self.get_agents_by_type(Spice):
+      spice.step()
+
+    self.schedule.steps += 1 # Important for data collector to track number of steps
+  
+  def run_model(self, step_count=1000):
+    for i in range(step_count):
+      print(i)
+      self.step()
+  
+  def get_agents_by_type(self, agent_type):
+        return [agent for agent in self.schedule.agents if type(agent) == agent_type]
