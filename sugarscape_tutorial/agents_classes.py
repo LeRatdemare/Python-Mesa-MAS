@@ -15,7 +15,7 @@ class Sugar(mesa.Agent):
   def step(self):
     '''
     Sugar Growth funtion, adds one unit of sugar each step until
-    max amount 
+    max amount
     '''
     self.amount = min([self.max_sugar, self.amount+1])
 
@@ -59,6 +59,48 @@ class Trader(mesa.Agent):
     self.metabolism_spice = metabolism_spice
     self.vision = vision
 
+  def get_sugar(self, pos):
+    '''
+    used in self.get_sugar_amount()
+    '''
+
+    this_cell = self.model.grid.get_cell_list_contents(pos)
+    for agent in this_cell:
+      if type(agent) is Sugar:
+        return agent
+    return None
+
+  def get_spice(self, pos):
+    '''
+    used in self.get_spice_amount()
+    '''
+
+    this_cell = self.model.grid.get_cell_list_contents(pos)
+    for agent in this_cell:
+      if type(agent) is Spice:
+        return agent
+    return None
+  
+  def get_sugar_amount(self, pos):
+    '''
+    used in self.move() as part of self.calculate_welfare()
+    '''
+
+    sugar_patch = self.get_sugar(pos)
+    if sugar_patch:
+      return sugar_patch.amount
+    return 0
+
+  def get_spice_amount(self, pos):
+    '''
+    used in self.move() as part of self.calculate_welfare()
+    '''
+
+    spice_patch = self.get_spice(pos)
+    if spice_patch:
+      return spice_patch.amount
+    return 0
+  
   def is_occupied_by_other(self, pos):
     '''
     Helper function part 1 of self.move()
@@ -73,11 +115,19 @@ class Trader(mesa.Agent):
         return True
     return False
 
+  def calculate_welfare(self, sugar, spice):
+    '''
+    helper function part 2 self.move()
+    '''
+    m_total = self.metabolism_sugar + self.metabolism_spice
+    # Cobb-douglas function form
+    return sugar**(self.metabolism_sugar/m_total) * spice**(self.metabolism_spice/m_total)
+
   def move(self):
     '''
     Function for trader agent to identify optimal move for each step in 4 parts
     1 - Identify all possible moves
-    2 - Determine which move maximize welfare
+    2 - Determine which move maximizes welfare
     3 - Find closest best option
     4 - Move
     '''
@@ -88,4 +138,11 @@ class Trader(mesa.Agent):
                    self.pos, self.moore, True, self.vision
                 ) if not self.is_occupied_by_other(i)]
     print(self.pos, neighbors)
-    # 2 - Determine chich mive maximize welfare
+    # 2 - Determine which move maximizes welfare
+    welfares = [
+      self.calculate_welfare(
+        self.sugar + self.get_sugar_amount(pos),
+        self.spice + self.get_spice_amount(pos))
+      for pos in neighbors
+    ]
+    print(welfares)
