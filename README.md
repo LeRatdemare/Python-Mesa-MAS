@@ -26,6 +26,35 @@ Source page [here](https://mesa.readthedocs.io/en/main/modular-visualization.htm
 
 (Shapes also have "x" and "y" coordinates, for the x and y of the grid cell in which it is, but CanvasGrid adds those automatically).
 
+### Model params
+
+Model params come by 6 types :
+- NUMBER = "number"
+    - name=""
+    - value=None
+    - description=None
+- CHECKBOX = "checkbox"
+    - name=""
+    - value=None
+    - description=None
+- CHOICE = "choice"
+    - name=""
+    - value=None
+    - choices=None
+    - description=None
+- SLIDER = "slider"
+    - name="",
+    - value=None,
+    - min_value=None,
+    - max_value=None,
+    - step=1,
+    - description=None,
+-  STATIC_TEXT = "static_text"
+    - value=None
+
+[More info](https://github.com/projectmesa/mesa-viz-tornado/blob/main/mesa_viz_tornado/UserParam.py)
+
+
 ## Resources
 - Youtube [tutorial](https://www.youtube.com/watch?v=fUrUWnWGHEQ&list=PLF0b3ThojznRpQOd7iFukqXybbMV_vwZn&index=1) followed for this project
 - Super [documentation](https://mesa.readthedocs.io/en/latest/apis/time.html) for Mesa library

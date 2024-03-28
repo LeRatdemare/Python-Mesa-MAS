@@ -1,6 +1,7 @@
 from KdModel import mesa, KdModel
 from mesa.visualization.modules import CanvasGrid
-from mesa_viz_tornado.ModularVisualization import ModularServer
+from mesa.visualization.ModularVisualization import ModularServer
+# from mesa_viz_tornado.ModularVisualization import ModularServer
 
 from student import Student
 from visualization_elements import *
@@ -15,21 +16,21 @@ def agent_portrayal(agent: Student):
     }
     return portrayal
 
-# model_params = {
-#     "initial_population": {
-#         "type": "SliderInt",
-#         "value": 20,
-#         "label": "Number of agents:",
-#         "min": 10,
-#         "max": 100,
-#         "step": 1,
-#     },
-#     "nb_disciplines": {
+model_params = {
+    "initial_population": {
+        "type": "SliderInt",
+        "value": 20,
+        "label": "Number of agents:",
+        "min": 10,
+        "max": 100,
+        "step": 1,
+    },
+    "nb_disciplines": {
 
-#     },
-#     "width": 50,
-#     "height": 50,
-# }
+    },
+    "width": 20,
+    "height": 20,
+}
 
 
 ########################## Useful Methods
