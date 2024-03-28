@@ -1,6 +1,7 @@
 from KdModel import mesa, KdModel
 from mesa.visualization.modules import CanvasGrid
 from mesa.visualization.ModularVisualization import ModularServer
+from mesa.visualization.UserParam import *
 # from mesa_viz_tornado.ModularVisualization import ModularServer
 
 from student import Student
@@ -9,7 +10,7 @@ from visualization_elements import *
 def agent_portrayal(agent: Student):
     portrayal = {
         "Shape": "circle",
-        "Color": get_color(agent.get_mean_knowledge()),
+        "Color": get_agent_color_from_knowledge(agent.get_mean_knowledge()),
         "Filled": "true",
         "Layer": 0,
         "r": 0.5,
@@ -17,26 +18,18 @@ def agent_portrayal(agent: Student):
     return portrayal
 
 model_params = {
-    "initial_population": {
-        "type": "SliderInt",
-        "value": 20,
-        "label": "Number of agents:",
-        "min": 10,
-        "max": 100,
-        "step": 1,
-    },
-    "nb_disciplines": {
-
-    },
     "width": 20,
     "height": 20,
+    "initial_population": Slider("Number of agents", 20, 10, 100, 1),
+    "nb_disciplines": NumberInput("Number of disciplines", 4)
+    # "nb_disciplines": Slider("Number of disciplines", 4, 1, 10, 1)
 }
 
 
 ########################## Useful Methods
 
 
-def get_color(value):
+def get_agent_color_from_knowledge(value):
     # Ensure the value is between 0 and 100
     value = max(0, min(value, 100))
 
@@ -56,5 +49,5 @@ def get_color(value):
 canvas_element = CanvasGrid(agent_portrayal, 20, 20, 500, 500)
 mean_knowledge_element = AttributeElement("mean_knowledge")
 
-server = ModularServer(KdModel, [canvas_element, mean_knowledge_element], "Knowledge Diffusion Model")
+server = ModularServer(KdModel, [canvas_element, mean_knowledge_element], "Knowledge Diffusion Model", model_params)
 server.launch()

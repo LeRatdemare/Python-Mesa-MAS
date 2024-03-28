@@ -2,6 +2,14 @@
 
 ![Model Visualization](screenshots/model_viz_01.jpg)
 
+
+## MultiGrid
+
+
+MultiGrid is used to calculate agent positions, neighbors and other useful methods.<br>
+Source [here](https://mesa.readthedocs.io/en/latest/apis/space.html#mesa.space.MultiGrid.move_agent).
+
+
 ## Visualization
 
 ### Agents Portrayal
@@ -28,7 +36,7 @@ Source page [here](https://mesa.readthedocs.io/en/main/modular-visualization.htm
 
 ### Model params
 
-Model params come by 6 types :
+UserParams (*from mesa.visualization.UserParam* package) are used to change paramaters values while the simulation is running and come by 6 types :
 - NUMBER = "number"
     - name=""
     - value=None
