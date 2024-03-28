@@ -17,8 +17,9 @@ class KdModel(mesa.Model):
         self.grid = mesa.space.MultiGrid(width=self.width, height=self.height, torus=True)
         # Initiate schedule
         self.schedule = mesa.time.RandomActivationByType(self)
-        # Initiate DataCollector
+        # Initiate DataCollector and data visualization attr
         self.datacollector = mesa.DataCollector({"agents_count":len(self.schedule.agents)})
+        self.mean_knowledge = 0
         # Initiate population attributes
         Student.nb_disciplines = nb_disciplines
         Student.max_knowledge = 100
@@ -32,15 +33,20 @@ class KdModel(mesa.Model):
         # TODO Use numpy for initial agents distribution
         
     def step(self):
-        # TODO
+        # Prepare data
+        self.mean_knowledge = 0
         student_shuffle = list(self.schedule.agents_by_type[Student].values())
-        # mrandom.shuffle(student_shuffle)
+        mrandom.shuffle(student_shuffle)
         for student in student_shuffle:
             student.step()
             # Make the agent move
             new_pos = self.grid.torus_adj(student.calculate_next_pos())
             self.pos = new_pos
             self.grid.move_agent(student, new_pos)
+            # Update model data
+            self.mean_knowledge += student.get_mean_knowledge()
+        self.mean_knowledge /= len(student_shuffle)
+        # Step forward
         self.schedule.steps += 1
 
     def run_model(self, step_count=1000):

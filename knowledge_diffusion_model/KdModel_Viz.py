@@ -2,6 +2,8 @@ from KdModel import mesa, KdModel
 from mesa.visualization.modules import CanvasGrid
 from mesa_viz_tornado.ModularVisualization import ModularServer
 
+from visualization_elements import *
+
 def agent_portrayal(agent):
     portrayal = {
         "Shape": "circle",
@@ -30,6 +32,7 @@ def agent_portrayal(agent):
 
 # Create a CanvasGrid in a 500px * 500px window
 canvas_element = CanvasGrid(agent_portrayal, 50, 50, 500, 500)
+mean_knowledge_element = AttributeElement("mean_knowledge")
 
-server = ModularServer(KdModel, [canvas_element], "Knowledge Diffusion Model")
+server = ModularServer(KdModel, [canvas_element, mean_knowledge_element], "Knowledge Diffusion Model")
 server.launch()

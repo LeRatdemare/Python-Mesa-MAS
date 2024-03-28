@@ -23,13 +23,20 @@ class Student(mesa.Agent):
         for i in range(Student.nb_disciplines):
             self.knowledge[i] -= Student.knowledge_loss
             self.knowledge[i] = max(self.knowledge[i], 0)
-        print(f"{self} -> {self.knowledge}")
+        # print(f"{self} -> {self.knowledge}")
 
     def calculate_next_pos(self) -> tuple:
         # Moves randomly by one cell
         newx = self.pos[0]-1 + randint(0, 2)
         newy = self.pos[1]-1 + randint(0, 2)
         return (newx, newy)
+
+    def get_mean_knowledge(self):
+        mean = 0
+        for k in self.knowledge:
+            mean += k
+        mean /= len(self.knowledge)
+        return mean
 
     def __str__(self) -> str:
         return f"Student n°{self.unique_id} {self.pos}"
