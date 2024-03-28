@@ -1,5 +1,6 @@
 # Mesa Tutorial
 
+![Model Visualization](screenshots/model_viz_01.jpg)
 
 ## Visualization
 

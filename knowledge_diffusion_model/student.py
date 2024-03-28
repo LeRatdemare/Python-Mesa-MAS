@@ -16,7 +16,7 @@ class Student(mesa.Agent):
         self.pos = pos
         self.knowledge = []
         for i in range(Student.nb_disciplines):
-            self.knowledge.append(mrandom.randint(0, Student.max_knowledge+1))
+            self.knowledge.append(mrandom.randint(70, Student.max_knowledge+1))
 
     def step(self):
         # Agent knowledge decreases with time

@@ -9,7 +9,7 @@ class KdModel(mesa.Model):
     """
     """
     
-    def __init__(self, width=50, height=50, initial_population=20, nb_disciplines=4):
+    def __init__(self, width=20, height=20, initial_population=20, nb_disciplines=4):
         # Initiate width and height of world
         self.width = width
         self.height = height
