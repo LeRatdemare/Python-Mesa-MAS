@@ -9,7 +9,7 @@ class KdModel(mesa.Model):
     """
     """
     
-    def __init__(self, width=20, height=20, initial_population=20, nb_disciplines=4):
+    def __init__(self, width=20, height=20, initial_population=20, nb_disciplines=4, knowledge_loss=2, knowledge_gain=10, study_rate=0.4):
         # Initiate width and height of world
         self.width = width
         self.height = height
@@ -23,7 +23,9 @@ class KdModel(mesa.Model):
         # Initiate population attributes
         Student.nb_disciplines = nb_disciplines
         Student.max_knowledge = 100
-        Student.knowledge_loss = 2
+        Student.knowledge_loss = knowledge_loss
+        Student.knowledge_gain = knowledge_gain
+        Student.study_rate = study_rate
 
         for i in range(initial_population):
             pos = (randint(0, width-1), randint(0, height-1))

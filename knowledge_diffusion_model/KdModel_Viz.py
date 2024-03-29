@@ -21,8 +21,10 @@ model_params = {
     "width": 20,
     "height": 20,
     "initial_population": Slider("Number of agents", 20, 10, 100, 1),
-    "nb_disciplines": NumberInput("Number of disciplines", 4)
-    # "nb_disciplines": Slider("Number of disciplines", 4, 1, 10, 1)
+    "nb_disciplines": NumberInput("Number of disciplines", 4),
+    "knowledge_loss": Slider("Knowledge loss", 2, 0, 5, 1),
+    "knowledge_gain": Slider("Knowledge gain", 10, 0, 20, 1),
+    "study_rate":Slider("Study rate", 0.4, 0, 1, 0.1)
 }
 
 
