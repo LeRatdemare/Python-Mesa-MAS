@@ -5,7 +5,7 @@
 ## Install Procedure
 
 1. Make sure to have Python 3.9.13 installed (you can download Python 3.9 in the Microsoft Store on Windows)
-2. In a terminal, run 'python3 -m pip install Mesa' to install the Mesa librairy
+2. In a terminal, run 'python3 -m pip install mesa==2.2.4' to install the Mesa librairy
 3. Clone this GitHub repository using 'git clone https://github.com/LeRatdemare/Python-Mesa-MAS'
 4. In a terminal, use the 'cd' command to place yourself into the 'knowledge_diffusion_model/' folder
 5. Run the 'python KdModel_Viz.py' command
